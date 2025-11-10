@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>教學小工具｜固定順序＋圖片題先完成操作＋有趣抽號音效</title>
+<title>教學小工具｜固定順序＋圖片題先完成操作＋注音按鈕</title>
 <style>
 /* 內嵌字體：請將 BpmfGenSenRounded-B.ttf 與本檔同層 */
 @font-face{
@@ -21,7 +21,6 @@
 *{box-sizing:border-box}
 body{
   margin:0;
-  /* ✅ 一行就套用你提供的字體 */
   font-family:'BpmfGenSenRoundedB',"Noto Sans TC","Microsoft JhengHei",system-ui,Arial,sans-serif;
   background:var(--bg);
 }
@@ -65,6 +64,10 @@ body{
 .answers .btn.blue{background:#2563eb;color:#fff}
 .answers .btn.yellow{background:var(--yellow);color:#000;}
 .answers .btn.purple{background:var(--purple);color:#fff;}
+
+/* 注音（ruby）樣式 */
+ruby{ruby-position:over;}
+rt{font-size:.6em;color:#6b7280;}
 
 /* 覆蓋層 */
 .overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border-radius:10px;z-index:5;text-align:center;}
@@ -207,6 +210,31 @@ drawBtn.onclick=()=>{
 };
 resetBtn.onclick=()=>{ticketEl.textContent='—';bar.style.width='0';};
 
+/* === 注音工具：把指定詞彙轉成 ruby === */
+function rubyWord(hanzi, zhuyin){
+  // zhuyin 以空格分開（每字一個注音）
+  const chars=[...hanzi];
+  const z=zhuyin.trim().split(/\s+/);
+  return chars.map((ch,i)=>`<ruby>${ch}<rt>${z[i]||''}</rt></ruby>`).join('');
+}
+const RUBY = {
+  '紅色': rubyWord('紅色','ㄏㄨㄥˊ ㄙㄜˋ'),
+  '藍色': rubyWord('藍色','ㄌㄢˊ ㄙㄜˋ'),
+  '黃色': rubyWord('黃色','ㄏㄨㄤˊ ㄙㄜˋ'),
+  '紫色': rubyWord('紫色','ㄗˇ ㄙㄜˋ'),
+  '月曆紙': rubyWord('月曆紙','ㄩㄝˋ ㄌㄧˋ ㄓˇ'),
+  '色紙': rubyWord('色紙','ㄙㄜˋ ㄓˇ'),
+  '宣傳單': rubyWord('宣傳單','ㄒㄩㄢ ㄔㄨㄢˊ ㄉㄢ'),
+  '筆記紙': rubyWord('筆記紙','ㄅㄧˇ ㄐㄧˋ ㄓˇ'),
+};
+function setBtnLabelForGeometry(btn, colorWord, letter){
+  // 例如：紅色 + A ；只對中文加注音，英文字母不加
+  btn.innerHTML = `${RUBY[colorWord]} ${letter}`;
+}
+function setBtnLabelForImage(btn, labelWord){
+  btn.innerHTML = RUBY[labelWord];
+}
+
 /* === 題目邏輯（固定順序） === */
 const promptEl=$('#prompt'),canvas=$('#canvas'),answers=$('#answers'),
 btnA=$('#btnA'),btnB=$('#btnB'),idleBtn=$('#idleBtn'),backBtn=$('#backBtn'),overlay=$('#overlay'),prepBtn=$('#prepBtn');
@@ -254,7 +282,9 @@ prepBtn.onclick=()=>{
 function renderRect(){
   canvas.innerHTML='';
   btnA.className='btn red'; btnB.className='btn blue';
-  btnA.textContent='紅色 A'; btnB.textContent='藍色 B';
+  // 注音：紅色/藍色 + 英文字母
+  setBtnLabelForGeometry(btnA,'紅色','A');
+  setBtnLabelForGeometry(btnB,'藍色','B');
   correctBtn='B';
   const A=document.createElement('div');A.className='rect red';A.style.width='110px';A.style.height='80px';A.innerHTML='<span class="label">A</span>';
   const B=document.createElement('div');B.className='rect blue';B.style.width='320px';B.style.height='210px';B.innerHTML='<span class="label">B</span>';
@@ -265,7 +295,8 @@ function renderRect(){
 function renderTri(){
   canvas.innerHTML='';
   btnA.className='btn yellow'; btnB.className='btn purple';
-  btnA.textContent='黃色 A'; btnB.textContent='紫色 B';
+  setBtnLabelForGeometry(btnA,'黃色','A');
+  setBtnLabelForGeometry(btnB,'紫色','B');
   correctBtn='B';
   const A=triangle(140,110,'var(--yellow)','A');
   const B=triangle(320,240,'var(--purple)','B');
@@ -286,7 +317,9 @@ function triangle(w,h,color,label){
 function renderImg(aSrc,bSrc,aLabel,bLabel,aIsBigger){
   canvas.innerHTML='';
   btnA.className='btn red'; btnB.className='btn blue';
-  btnA.textContent=aLabel; btnB.textContent=bLabel;
+  // 注音：顯示真實名稱
+  setBtnLabelForImage(btnA,aLabel);
+  setBtnLabelForImage(btnB,bLabel);
   correctBtn = aIsBigger ? 'A' : 'B';
 
   const smallW=200, smallH=150, bigW=360, bigH=260;
@@ -328,8 +361,7 @@ function showOverlay(ok){
   },1200);
 }
 
-/* 綁定按鈕：依當前正確答案判定 */
-let correctBtn='B';
+/* 綁定按鈕：依當前正確答案判定（⚠️ 僅此一個 correctBtn，全域共享，不再重複宣告） */
 btnA.onclick=()=>{
   if(answered) return;
   answered=true; disableButtons();
