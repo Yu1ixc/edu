@@ -50,5 +50,250 @@ body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,Arial,sa
 .icon.cross::before{transform:translate(-50%,-50%) rotate(45deg);}
 .icon.cross::after{transform:translate(-50%,-50%) rotate(-45deg);}
 
-.control
+.control-bar{display:flex;justify-content:center;gap:10px}
+.hidden{display:none !important;}
+.imgBox{position:relative;display:flex;align-items:center;justify-content:center;border-radius:8px;overflow:hidden}
+.imgBox img{display:block;max-width:100%;height:auto}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="grid">
+    <!-- 抽號器 -->
+    <section class="card left">
+      <h2>抽號器</h2>
+      <div class="badge" id="ticket">—</div>
+      <div class="progress"><span id="progressBar"></span></div>
+      <div style="text-align:center;margin-top:10px;">
+        <button class="btn primary" id="drawBtn">抽號碼</button>
+        <button class="btn ghost" id="resetBtn">清空</button>
+      </div>
+    </section>
 
+    <!-- 題目區 -->
+    <section class="card">
+      <div class="stage">
+        <div class="overlay" id="overlay"></div>
+        <div class="prompt" id="prompt">按「抽題」開始</div>
+        <div class="canvas" id="canvas"></div>
+
+        <div class="answers hidden" id="answers">
+          <button class="btn red" id="btnA">選 A</button>
+          <button class="btn blue" id="btnB">選 B</button>
+        </div>
+
+        <div class="control-bar">
+          <button class="btn ghost" id="idleBtn">抽題</button>
+          <button class="btn ghost hidden" id="backBtn">返回抽題</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+/* ===== 快捷 ===== */
+const $ = sel => document.querySelector(sel);
+
+/* ===== WebAudio：吃角子老虎機音效 ===== */
+let audioCtx=null, reelNoise=null, reelGain=null, tickTimer=null;
+function ctx(){ return audioCtx || (audioCtx = new (window.AudioContext||window.webkitAudioContext)()); }
+
+// 轉輪（沙沙噪音 + 叮叮tick）
+function startSlotRolling(){
+  const C = ctx();
+  // 白噪音緩衝
+  const buffer = C.createBuffer(1, C.sampleRate*1, C.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i=0;i<data.length;i++) data[i] = Math.random()*2-1;
+
+  reelNoise = C.createBufferSource();
+  reelNoise.buffer = buffer;
+  reelNoise.loop = true;
+
+  const bp = C.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1800; bp.Q.value = 1.4;
+  reelGain = C.createGain(); reelGain.gain.value = 0.08;
+
+  reelNoise.connect(bp).connect(reelGain).connect(C.destination);
+  reelNoise.start();
+
+  // tick（卡齒叮聲）
+  tickTimer = setInterval(()=>{
+    const o = C.createOscillator();
+    const g = C.createGain();
+    o.type = "sine";
+    o.frequency.value = 950 + Math.random()*500; // 950~1450Hz
+    o.connect(g).connect(C.destination);
+    const t = C.currentTime;
+    g.gain.setValueAtTime(0.0,t);
+    g.gain.linearRampToValueAtTime(0.14,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.09);
+    o.start(t); o.stop(t+0.1);
+  }, 120);
+}
+// 停止並播放 ka-ching
+function stopSlotRolling(){
+  const C = ctx();
+  if (reelNoise && reelGain){
+    try{
+      reelGain.gain.exponentialRampToValueAtTime(0.0001, C.currentTime+0.08);
+      reelNoise.stop(C.currentTime+0.09);
+    }catch(e){}
+  }
+  reelNoise=null; reelGain=null;
+  if (tickTimer){ clearInterval(tickTimer); tickTimer=null; }
+  playKaChing();
+}
+// ka-ching（簡易版：銅鈴+硬幣落下兩音）
+function playKaChing(){
+  const C = ctx();
+  function ping(f, t, v){
+    const o=C.createOscillator(), g=C.createGain();
+    o.type='sine'; o.frequency.value=f; g.gain.value=v;
+    o.connect(g).connect(C.destination);
+    const now=C.currentTime;
+    g.gain.setValueAtTime(v, now);
+    g.gain.exponentialRampToValueAtTime(0.0001, now+t);
+    o.start(now); o.stop(now+t+0.01);
+  }
+  ping(1600, 0.18, 0.22);            // 鈴
+  setTimeout(()=>ping(1200,0.14,0.18),120); // 硬幣1
+  setTimeout(()=>ping(900,0.16,0.18),240);  // 硬幣2
+}
+function beep(freq=880,dur=0.12,vol=0.16){
+  const C = ctx(); const o=C.createOscillator(), g=C.createGain();
+  o.type="sine"; o.frequency.value=freq; g.gain.value=vol; o.connect(g).connect(C.destination);
+  const t=C.currentTime; o.start(t); o.stop(t+dur);
+}
+function success(){ beep(880,0.12); setTimeout(()=>beep(1175,0.14),150); }
+function fail(){ beep(300,0.10,0.18); setTimeout(()=>beep(240,0.12,0.18),160); }
+
+/* ===== 抽號器：3 秒進度條 + 吃角子老虎機 ===== */
+const ticketEl = $('#ticket'), bar = $('#progressBar'), drawBtn = $('#drawBtn'), resetBtn = $('#resetBtn');
+drawBtn.addEventListener('click', ()=>{
+  const D = 3000, t0 = performance.now();
+  startSlotRolling();
+  const timer = setInterval(()=>{
+    const p = Math.min((performance.now()-t0)/D,1);
+    ticketEl.textContent = Math.floor(2 + Math.random()*25);
+    bar.style.width = (p*100)+'%';
+    if (p>=1){
+      clearInterval(timer);
+      stopSlotRolling();                       // 自帶 ka-ching 結尾
+      ticketEl.textContent = Math.floor(2 + Math.random()*25);
+    }
+  }, 60);
+});
+resetBtn.addEventListener('click', ()=>{ ticketEl.textContent='—'; bar.style.width='0%'; });
+
+/* ===== 題目邏輯（rect / tri / img1 / img2）每輪各一次 ===== */
+const promptEl=$('#prompt'), canvas=$('#canvas'), answers=$('#answers'), btnA=$('#btnA'), btnB=$('#btnB');
+const idleBtn=$('#idleBtn'), backBtn=$('#backBtn'), overlay=$('#overlay');
+
+const ALL = ['rect','tri','img1','img2']; // 第三題=img1(月曆紙vs色紙)，第四題=img2(宣傳單vs筆記紙)
+let queue = [];
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function resetQueue(){ queue = shuffle(ALL.slice()); }
+resetQueue();
+
+let currentType=null;
+
+function setIdle(){
+  promptEl.textContent='按「抽題」開始';
+  canvas.innerHTML=''; answers.classList.add('hidden');
+  idleBtn.classList.remove('hidden');
+  backBtn.classList.add('hidden');
+}
+function startNext(){
+  if (queue.length===0) resetQueue();
+  currentType = queue.shift();
+  promptEl.textContent='哪個圖形更大';
+  answers.classList.remove('hidden');
+  idleBtn.classList.add('hidden');
+  backBtn.classList.add('hidden');
+  if (currentType==='rect') renderRect();
+  else if (currentType==='tri') renderTri();
+  else if (currentType==='img1') renderImg('月曆紙.jpg','色紙.jpg');       // A小,B大
+  else renderImg('宣傳單.jpg','筆記紙.jpg');                               // A小,B大
+}
+
+/* --- 題1：長方形（紅A小／藍B大） --- */
+function renderRect(){
+  canvas.innerHTML='';
+  btnA.className='btn red'; btnB.className='btn blue';
+  const aW=80,aH=60, bW=240,bH=160;
+  const A=document.createElement('div'); A.className='rect red'; A.style.width=aW+'px'; A.style.height=aH+'px'; A.innerHTML='<span class="label">A</span>';
+  const B=document.createElement('div'); B.className='rect blue'; B.style.width=bW+'px'; B.style.height=bH+'px'; B.innerHTML='<span class="label">B</span>';
+  canvas.append(A,B);
+}
+
+/* --- 題2：三角形（黃A小／紫B大；無外框） --- */
+function renderTri(){
+  canvas.innerHTML='';
+  btnA.className='btn yellow'; btnB.className='btn purple';
+  const A=triangle(110,85,'var(--yellow)','A');
+  const B=triangle(270,200,'var(--purple)','B');
+  canvas.append(A,B);
+}
+function triangle(w,h,color,label){
+  const wrap=document.createElement('div'); wrap.className='imgBox'; wrap.style.width=w+'px'; wrap.style.height=h+'px';
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg'); svg.setAttribute('width',w); svg.setAttribute('height',h);
+  const fill = getComputedStyle(document.documentElement).getPropertyValue(color).trim()||color;
+  const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon'); poly.setAttribute('points',`0,${h} ${w/2},0 ${w},${h}`); poly.setAttribute('fill',fill);
+  svg.appendChild(poly);
+  const lbl=document.createElement('span'); lbl.className='label'; lbl.textContent=label;
+  wrap.append(svg,lbl); return wrap;
+}
+
+/* --- 題3/4：圖片大小（A小／B大） --- */
+function renderImg(aSrc,bSrc){
+  canvas.innerHTML='';
+  btnA.className='btn red'; btnB.className='btn blue'; // 圖片題採通用按鈕色
+  const A=makeImageBox(aSrc, 180, 140, 'A'); // 小
+  const B=makeImageBox(bSrc, 360, 260, 'B'); // 大
+  canvas.append(A,B);
+}
+function makeImageBox(src,w,h,label){
+  const box=document.createElement('div'); box.className='imgBox'; box.style.width=w+'px'; box.style.height=h+'px';
+  const img=new Image(); img.src = src; img.alt = label; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover';
+  const lbl=document.createElement('span'); lbl.className='label'; lbl.textContent=label;
+  box.append(img,lbl); return box;
+}
+
+/* ===== 作答與覆蓋層 ===== */
+function showOverlay(ok){
+  overlay.classList.add('show');
+  overlay.innerHTML = ok
+    ? `<div class="icon circle"></div><p style="color:#065f46;font-size:24px;margin-top:10px;">答對了</p>`
+    : `<div class="icon cross"></div><p style="color:#b91c1c;font-size:24px;margin-top:10px;">答錯了</p>`;
+  setTimeout(()=>{
+    overlay.classList.remove('show'); overlay.innerHTML='';
+    if (ok){
+      setIdle();
+    }else{
+      // 答錯：留在題目畫面，隱藏抽題、顯示返回
+      idleBtn.classList.add('hidden');
+      backBtn.classList.remove('hidden');
+    }
+  }, 1200);
+}
+$('#btnA').addEventListener('click', ()=>{ fail(); showOverlay(false); }); // A 永遠較小
+$('#btnB').addEventListener('click', ()=>{ success(); showOverlay(true); });
+
+/* ===== 控制列 ===== */
+idleBtn.addEventListener('click', startNext);
+backBtn.addEventListener('click', setIdle);
+
+/* ===== 初始 ===== */
+setIdle();
+
+/* ===== 快捷鍵：空白抽題、Enter選B、D抽號碼 ===== */
+const drawBtnRef = $('#drawBtn');
+window.addEventListener('keydown',(e)=>{
+  if (e.key===' '){ e.preventDefault(); if (!idleBtn.classList.contains('hidden')) startNext(); }
+  else if (e.key==='Enter'){ $('#btnB').click(); }
+  else if (e.key.toLowerCase()==='d'){ drawBtnRef.click(); }
+});
+</script>
+</body>
+</html>
