@@ -3,20 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>教學小工具｜固定順序＋圖片題先完成操作＋注音按鈕</title>
+<title>教學小工具｜版面優化版</title>
 <style>
-/* 內嵌字體：請將 BpmfGenSenRounded-B.ttf 與本檔同層 */
 @font-face{
-  font-family: 'BpmfGenSenRoundedB';
-  src: url('./BpmfGenSenRounded-B.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  font-family:'BpmfGenSenRoundedB';
+  src:url('./BpmfGenSenRounded-B.ttf') format('truetype');
+  font-weight:700;
+  font-style:normal;
+  font-display:swap;
 }
-
 :root{
-  --bg:#f6f7fb; --panel:#fff; --primary:#2563eb;
-  --yellow:#ffcc33; --purple:#a066ff;
+  --bg:#f6f7fb;--panel:#fff;--primary:#2563eb;
+  --yellow:#ffcc33;--purple:#a066ff;
 }
 *{box-sizing:border-box}
 body{
@@ -24,99 +22,206 @@ body{
   font-family:'BpmfGenSenRoundedB',"Noto Sans TC","Microsoft JhengHei",system-ui,Arial,sans-serif;
   background:var(--bg);
 }
-.container{max-width:1100px;margin:24px auto;padding:16px;}
-.grid{display:grid;gap:16px;}
-@media(min-width:960px){.grid{grid-template-columns:220px 1fr}}
+.container{max-width:1280px;margin:32px auto;padding:24px;}
+.grid{display:grid;gap:24px;}
+@media(min-width:960px){.grid{grid-template-columns:240px 1fr}}
 
-.card{background:var(--panel);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.08);padding:16px;position:relative;}
-.card.left{display:flex;flex-direction:column;justify-content:center;}
-.card.left h2{text-align:center;margin:0 0 12px;}
-
-.badge{display:flex;align-items:center;justify-content:center;height:64px;border-radius:12px;background:#eef2ff;font-weight:800;font-size:28px;border:2px dashed #c7d2fe;}
-.btn{border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer;transition:.15s;box-shadow:0 3px 10px rgba(0,0,0,.1)}
-.btn.primary{background:var(--primary);color:#fff;}
-.btn.ghost{background:#e5e7eb;color:#111827;}
-.btn.wide{display:block;width:100%;padding:14px 18px;font-size:18px;border-radius:14px;}
-.progress{width:100%;height:8px;background:#eef2ff;border-radius:999px;overflow:hidden;margin-top:8px;}
-.progress>span{display:block;width:0;height:100%;background:#6366f1;transition:width .06s linear;}
-
-.stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;min-height:520px;padding:12px;border:2px dashed #e5e7eb;border-radius:12px;background:#fafafa;}
-.prompt{font-size:26px;font-weight:700;text-align:center;min-height:60px;}
-.canvas{display:flex;align-items:center;justify-content:center;gap:56px;width:100%;max-width:920px;min-height:320px;}
-
-/* 正圓白底標號（幾何題用） */
-.label{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:44px;height:44px;border-radius:50%;
-  background:#fff;display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:18px;color:#111;box-shadow:0 2px 6px rgba(0,0,0,.12);
+.card{
+  background:var(--panel);
+  border-radius:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+  padding:24px;
+}
+.card.left{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.card.left h2{
+  text-align:center;
+  margin:0 0 16px;
+  font-size:22px;
 }
 
-/* 幾何圖形 */
+.badge{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:70px;
+  border-radius:14px;
+  background:#eef2ff;
+  font-weight:800;
+  font-size:30px;
+  border:2px dashed #c7d2fe;
+}
+.btn{
+  border:none;
+  padding:14px 18px;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.15s;
+  font-family:'BpmfGenSenRoundedB',"Noto Sans TC";
+  box-shadow:0 3px 10px rgba(0,0,0,.1);
+  color:#111;
+  font-size:18px;
+}
+.btn.primary{background:var(--primary);color:#fff;}
+.btn.ghost{background:#e5e7eb;color:#111;}
+.btn.red{background:#ef4444;color:#fff;}
+.btn.blue{background:#2563eb;color:#fff;}
+.btn.yellow{background:var(--yellow);color:#000;}
+.btn.purple{background:var(--purple);color:#fff;}
+.btn.wide{display:block;width:100%;padding:16px 20px;font-size:20px;border-radius:16px;}
+.btn .label-circle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  font-weight:800;
+  font-size:18px;
+  box-shadow:0 2px 6px rgba(0,0,0,.12);
+}
+
+.progress{
+  width:100%;
+  height:8px;
+  background:#eef2ff;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:10px;
+}
+.progress>span{
+  display:block;
+  width:0;
+  height:100%;
+  background:#6366f1;
+  transition:width .06s linear;
+}
+
+/* ===================== */
+.stage{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
+  min-height:640px;
+  padding:24px 16px 40px;
+  border:2px dashed #e5e7eb;
+  border-radius:14px;
+  background:#fafafa;
+}
+.prompt{
+  font-size:28px;
+  font-weight:700;
+  text-align:center;
+  margin-top:10px;
+  min-height:60px;
+}
+.canvas{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:80px;
+  width:100%;
+  max-width:1000px;
+  min-height:360px;
+  margin:10px 0 20px;
+}
+.label{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:44px;height:44px;
+  border-radius:50%;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:18px;
+  color:#111;
+  box-shadow:0 2px 6px rgba(0,0,0,.12);
+}
 .rect{position:relative;display:flex;align-items:center;justify-content:center;border-radius:10px;}
 .rect.red{background:#ef4444}
 .rect.blue{background:#2563eb}
-
-/* 答案按鈕 */
-.answers{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
-.answers .btn{min-width:160px;font-size:18px;padding:12px 18px;border-radius:12px;}
-.answers .btn.red{background:#ef4444;color:#fff}
-.answers .btn.blue{background:#2563eb;color:#fff}
-.answers .btn.yellow{background:var(--yellow);color:#000;}
-.answers .btn.purple{background:var(--purple);color:#fff;}
-
-/* 注音（ruby）樣式 */
-ruby{ruby-position:over;}
-rt{font-size:.6em;color:#6b7280;}
-
-/* 覆蓋層 */
-.overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border-radius:10px;z-index:5;text-align:center;}
+.answers{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:10px;
+}
+.overlay{
+  position:absolute;inset:0;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.92);
+  border-radius:10px;
+  z-index:5;text-align:center;
+}
 .overlay.show{display:flex}
-.icon{width:88px;height:88px;border-radius:50%;margin-bottom:10px;}
+.icon{width:96px;height:96px;border-radius:50%;margin-bottom:12px;}
 .icon.circle{border:6px solid #10b981;}
 .icon.cross{border:6px solid #ef4444;position:relative;}
-.icon.cross::before,.icon.cross::after{content:"";position:absolute;top:50%;left:50%;width:44px;height:6px;background:#ef4444;transform-origin:center;}
+.icon.cross::before,.icon.cross::after{
+  content:"";position:absolute;top:50%;left:50%;
+  width:48px;height:6px;background:#ef4444;transform-origin:center;
+}
 .icon.cross::before{transform:translate(-50%,-50%) rotate(45deg);}
 .icon.cross::after{transform:translate(-50%,-50%) rotate(-45deg);}
-
-.control-bar{display:flex;justify-content:center;gap:10px}
+.control-bar{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-top:30px;
+}
 .hidden{display:none !important;}
-
-/* 圖片容器與圖片（完整顯示） */
-.imgBox{position:relative;display:flex;align-items:center;justify-content:center;border-radius:10px;overflow:hidden;background:#fff;}
-.imgBox img{display:block;width:100%;height:100%;object-fit:contain;background:#fff;}
+.imgBox{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  overflow:hidden;
+  background:#fff;
+}
+.imgBox img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#fff;
+}
 </style>
 </head>
 <body>
 <div class="container">
   <div class="grid">
-    <!-- 抽號器 -->
     <section class="card left">
       <h2>抽號器</h2>
       <div class="badge" id="ticket">—</div>
       <div class="progress"><span id="progressBar"></span></div>
-      <div style="text-align:center;margin-top:10px;">
+      <div style="text-align:center;margin-top:12px;">
         <button class="btn primary" id="drawBtn">抽號碼</button>
         <button class="btn ghost" id="resetBtn">清空</button>
       </div>
     </section>
 
-    <!-- 題目區 -->
     <section class="card">
       <div class="stage">
         <div class="overlay" id="overlay"></div>
         <div class="prompt" id="prompt">按「抽題」開始</div>
         <div class="canvas" id="canvas"></div>
-
-        <!-- 圖片題的前置按鈕 -->
         <button class="btn ghost wide hidden" id="prepBtn">完成操作</button>
-
-        <!-- 答題選項 -->
         <div class="answers hidden" id="answers">
-          <button class="btn red" id="btnA">選 A</button>
-          <button class="btn blue" id="btnB">選 B</button>
+          <button class="btn" id="btnA">A</button>
+          <button class="btn" id="btnB">B</button>
         </div>
-
         <div class="control-bar">
           <button class="btn ghost" id="idleBtn">抽題</button>
           <button class="btn ghost hidden" id="backBtn">返回抽題</button>
@@ -128,265 +233,112 @@ rt{font-size:.6em;color:#6b7280;}
 
 <script>
 const $=s=>document.querySelector(s);
-
-/* === 有趣的抽號器音效（上滑音 whoop）=== */
-let audioCtx=null, tickTimer=null, whoopOsc=null, whoopGain=null;
+let audioCtx=null,tickTimer=null;
 function ctx(){return audioCtx||(audioCtx=new(window.AudioContext||window.webkitAudioContext)());}
+document.addEventListener('click',()=>{try{ctx().resume();}catch{}},{once:true});
 
-// 開始：節拍叮噹 + 上滑音 whoop（由低→高，3 秒）
 function startSlotRolling(){
   const C=ctx();
-
-  // 上滑音：從 260Hz 緩慢滑到 900Hz
-  whoopOsc = C.createOscillator();
-  whoopGain = C.createGain();
-  whoopOsc.type = 'triangle';
-  whoopOsc.frequency.setValueAtTime(260, C.currentTime);
-  whoopOsc.frequency.exponentialRampToValueAtTime(900, C.currentTime + 3.0); // ⬆ 上滑 3s
-  whoopGain.gain.setValueAtTime(0.08, C.currentTime);
-  whoopOsc.connect(whoopGain).connect(C.destination);
-  whoopOsc.start();
-
-  // 叮噹節拍（每 120ms 一下，隨機音高）
-  tickTimer = setInterval(()=>{
-    const o=C.createOscillator(), g=C.createGain();
+  const whoop=C.createOscillator(),g=C.createGain();
+  whoop.type='triangle';
+  whoop.frequency.setValueAtTime(260,C.currentTime);
+  whoop.frequency.exponentialRampToValueAtTime(900,C.currentTime+3);
+  g.gain.setValueAtTime(0.08,C.currentTime);
+  whoop.connect(g).connect(C.destination);
+  whoop.start();setTimeout(()=>whoop.stop(),3000);
+  tickTimer=setInterval(()=>{
+    const o=C.createOscillator(),gg=C.createGain();
     o.type='sine';
-    const base=[880, 988, 1047, 1175, 1319][Math.floor(Math.random()*5)];
-    o.frequency.value = base;
-    o.connect(g).connect(C.destination);
+    const f=[880,988,1047,1175,1319][Math.floor(Math.random()*5)];
+    o.frequency.value=f;
+    o.connect(gg).connect(C.destination);
     const t=C.currentTime;
-    g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(0.16, t+0.01);
-    g.gain.exponentialRampToValueAtTime(0.0008, t+0.10);
-    o.start(t); o.stop(t+0.11);
-  }, 120);
+    gg.gain.setValueAtTime(0,t);
+    gg.gain.linearRampToValueAtTime(0.15,t+0.01);
+    gg.gain.exponentialRampToValueAtTime(0.0008,t+0.10);
+    o.start(t);o.stop(t+0.12);
+  },120);
+  setTimeout(()=>{clearInterval(tickTimer);playKaChing();},3000);
 }
-function stopSlotRolling(){
-  const C=ctx();
-  if (tickTimer){ clearInterval(tickTimer); tickTimer=null; }
-  if (whoopOsc && whoopGain){
-    try{
-      whoopGain.gain.exponentialRampToValueAtTime(0.0001, C.currentTime+0.08);
-      whoopOsc.stop(C.currentTime+0.09);
-    }catch(e){}
-  }
-  whoopOsc=null; whoopGain=null;
-  playKaChing();
-}
-// 結束：ka-ching（小鈴＋兩枚硬幣）
-function playKaChing(){
-  const C=ctx();
-  const ping=(f,t,v)=>{const o=C.createOscillator(),g=C.createGain();
-    o.type='sine';o.frequency.value=f;g.gain.value=v;o.connect(g).connect(C.destination);
-    const now=C.currentTime;g.gain.setValueAtTime(v,now);g.gain.exponentialRampToValueAtTime(0.0001,now+t);
-    o.start(now);o.stop(now+t+0.01);};
-  ping(1600,0.18,0.22);
-  setTimeout(()=>ping(1200,0.14,0.18),120);
-  setTimeout(()=>ping(900,0.16,0.18),240);
-}
-function beep(f=880,d=0.12,v=0.16){
-  const C=ctx(),o=C.createOscillator(),g=C.createGain();
-  o.type="sine";o.frequency.value=f;g.gain.value=v;o.connect(g).connect(C.destination);
-  const t=C.currentTime;o.start(t);o.stop(t+d);
-}
-function success(){ beep(880,0.12); setTimeout(()=>beep(1175,0.14),150); }
-function fail(){ beep(300,0.10,0.18); setTimeout(()=>beep(240,0.12,0.18),160); }
+function playKaChing(){[[1600,0.18,0.22],[1200,0.14,0.18],[900,0.16,0.18]].forEach((t,i)=>{setTimeout(()=>beep(...t),i*120);});}
+function beep(f=880,d=0.12,v=0.16){const C=ctx(),o=C.createOscillator(),g=C.createGain();o.type='sine';o.frequency.value=f;g.gain.value=v;o.connect(g).connect(C.destination);const t=C.currentTime;o.start(t);o.stop(t+d);}
+function success(){beep(880,0.12);setTimeout(()=>beep(1175,0.14),150);}
+function fail(){beep(300,0.1,0.18);setTimeout(()=>beep(240,0.12,0.18),160);}
 
-/* === 抽號器 === */
 const ticketEl=$('#ticket'),bar=$('#progressBar'),drawBtn=$('#drawBtn'),resetBtn=$('#resetBtn');
-drawBtn.onclick=()=>{
-  const D=3000,t0=performance.now();
-  startSlotRolling();
-  const timer=setInterval(()=>{
-    const p=Math.min((performance.now()-t0)/D,1);
-    ticketEl.textContent=Math.floor(2+Math.random()*25);
-    bar.style.width=(p*100)+'%';
-    if(p>=1){
-      clearInterval(timer);
-      stopSlotRolling();
-      ticketEl.textContent=Math.floor(2+Math.random()*25);
-    }
-  },60);
-};
+drawBtn.onclick=()=>{const D=3000,t0=performance.now();startSlotRolling();const timer=setInterval(()=>{const p=Math.min((performance.now()-t0)/D,1);ticketEl.textContent=Math.floor(2+Math.random()*25);bar.style.width=(p*100)+'%';if(p>=1){clearInterval(timer);ticketEl.textContent=Math.floor(2+Math.random()*25);}},60);};
 resetBtn.onclick=()=>{ticketEl.textContent='—';bar.style.width='0';};
 
-/* === 注音工具：把指定詞彙轉成 ruby === */
-function rubyWord(hanzi, zhuyin){
-  // zhuyin 以空格分開（每字一個注音）
-  const chars=[...hanzi];
-  const z=zhuyin.trim().split(/\s+/);
-  return chars.map((ch,i)=>`<ruby>${ch}<rt>${z[i]||''}</rt></ruby>`).join('');
-}
-const RUBY = {
-  '紅色': rubyWord('紅色','ㄏㄨㄥˊ ㄙㄜˋ'),
-  '藍色': rubyWord('藍色','ㄌㄢˊ ㄙㄜˋ'),
-  '黃色': rubyWord('黃色','ㄏㄨㄤˊ ㄙㄜˋ'),
-  '紫色': rubyWord('紫色','ㄗˇ ㄙㄜˋ'),
-  '月曆紙': rubyWord('月曆紙','ㄩㄝˋ ㄌㄧˋ ㄓˇ'),
-  '色紙': rubyWord('色紙','ㄙㄜˋ ㄓˇ'),
-  '宣傳單': rubyWord('宣傳單','ㄒㄩㄢ ㄔㄨㄢˊ ㄉㄢ'),
-  '筆記紙': rubyWord('筆記紙','ㄅㄧˇ ㄐㄧˋ ㄓˇ'),
-};
-function setBtnLabelForGeometry(btn, colorWord, letter){
-  // 例如：紅色 + A ；只對中文加注音，英文字母不加
-  btn.innerHTML = `${RUBY[colorWord]} ${letter}`;
-}
-function setBtnLabelForImage(btn, labelWord){
-  btn.innerHTML = RUBY[labelWord];
-}
-
-/* === 題目邏輯（固定順序） === */
 const promptEl=$('#prompt'),canvas=$('#canvas'),answers=$('#answers'),
 btnA=$('#btnA'),btnB=$('#btnB'),idleBtn=$('#idleBtn'),backBtn=$('#backBtn'),overlay=$('#overlay'),prepBtn=$('#prepBtn');
-
-/* 固定順序：1 rect → 2 img(yue/se) → 3 tri → 4 img(xuan/b) */
 const ORDER=['rect','img1','tri','img2'];
-let orderIndex=0, answered=false, correctBtn='B';
+let orderIndex=0,answered=false,correctBtn='B';
 
-function setIdle(){
-  promptEl.textContent='按「抽題」開始';
-  canvas.innerHTML='';
-  answers.classList.add('hidden');
-  prepBtn.classList.add('hidden');
-  idleBtn.classList.remove('hidden');
-  backBtn.classList.add('hidden');
-  answered=false;
-  enableButtons();
+function setIdle(){promptEl.textContent='按「抽題」開始';canvas.innerHTML='';answers.classList.add('hidden');prepBtn.classList.add('hidden');idleBtn.classList.remove('hidden');backBtn.classList.add('hidden');answered=false;btnA.disabled=false;btnB.disabled=false;}
+function startNext(){if(orderIndex>=ORDER.length)orderIndex=0;const type=ORDER[orderIndex++];answered=false;btnA.disabled=false;btnB.disabled=false;promptEl.textContent='哪個圖形更大';idleBtn.classList.add('hidden');backBtn.classList.add('hidden');
+if(type==='rect'){renderRect();}
+else if(type==='tri'){renderTri();}
+else if(type==='img1'){renderImg('yue.jpg','se.jpg','月曆紙','色紙',true);}
+else{renderImg('xuan.jpg','b.jpg','宣傳單','筆記紙',true);}
 }
-function startNext(){
-  if(orderIndex>=ORDER.length) orderIndex=0;
-  const type=ORDER[orderIndex++];
+function enterImagePrep(){answers.classList.add('hidden');prepBtn.classList.remove('hidden');prepBtn.onclick=()=>{prepBtn.classList.add('hidden');answers.classList.remove('hidden');};}
 
-  answered=false; enableButtons();
-  promptEl.textContent='哪個圖形更大';
-  idleBtn.classList.add('hidden');
-  backBtn.classList.add('hidden');
-
-  if(type==='rect'){ renderRect(); answers.classList.remove('hidden'); prepBtn.classList.add('hidden'); }
-  else if(type==='tri'){ renderTri(); answers.classList.remove('hidden'); prepBtn.classList.add('hidden'); }
-  else if(type==='img1'){ renderImg('yue.jpg','se.jpg','月曆紙','色紙',true); enterImagePrep(); }
-  else { renderImg('xuan.jpg','b.jpg','宣傳單','筆記紙',true); enterImagePrep(); }
-}
-
-/* 圖片題先「完成操作」後才出現選項 */
-function enterImagePrep(){
-  answers.classList.add('hidden');
-  prepBtn.classList.remove('hidden');
-}
-prepBtn.onclick=()=>{
-  prepBtn.classList.add('hidden');
-  answers.classList.remove('hidden');
-};
-
-/* 題1：長方形（小圖放大、大小差明顯：A=110×80；B=320×210） */
 function renderRect(){
   canvas.innerHTML='';
   btnA.className='btn red'; btnB.className='btn blue';
-  // 注音：紅色/藍色 + 英文字母
-  setBtnLabelForGeometry(btnA,'紅色','A');
-  setBtnLabelForGeometry(btnB,'藍色','B');
+  btnA.innerHTML='<span class="label-circle">A</span>'; btnB.innerHTML='<span class="label-circle">B</span>';
+  answers.classList.remove('hidden'); prepBtn.classList.add('hidden');
   correctBtn='B';
-  const A=document.createElement('div');A.className='rect red';A.style.width='110px';A.style.height='80px';A.innerHTML='<span class="label">A</span>';
-  const B=document.createElement('div');B.className='rect blue';B.style.width='320px';B.style.height='210px';B.innerHTML='<span class="label">B</span>';
+  const A=document.createElement('div');A.className='rect red';A.style.width='120px';A.style.height='90px';A.innerHTML='<span class="label">A</span>';
+  const B=document.createElement('div');B.className='rect blue';B.style.width='340px';B.style.height='230px';B.innerHTML='<span class="label">B</span>';
   canvas.append(A,B);
 }
-
-/* 題3：三角形（小圖放大：A=140×110；大圖：B=320×240） */
 function renderTri(){
   canvas.innerHTML='';
   btnA.className='btn yellow'; btnB.className='btn purple';
-  setBtnLabelForGeometry(btnA,'黃色','A');
-  setBtnLabelForGeometry(btnB,'紫色','B');
+  btnA.innerHTML='<span class="label-circle">A</span>'; btnB.innerHTML='<span class="label-circle">B</span>';
+  answers.classList.remove('hidden'); prepBtn.classList.add('hidden');
   correctBtn='B';
-  const A=triangle(140,110,'var(--yellow)','A');
-  const B=triangle(320,240,'var(--purple)','B');
+  const A=triangle(160,120,'var(--yellow)','A');
+  const B=triangle(340,260,'var(--purple)','B');
   canvas.append(A,B);
 }
 function triangle(w,h,color,label){
-  const wrap=document.createElement('div');wrap.className='imgBox';wrap.style.width=w+'px';wrap.style.height=h+'px';
-  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('width',w);svg.setAttribute('height',h);
+  const wrap=document.createElement('div');
+  wrap.className='imgBox';
+  wrap.style.width=w+'px'; wrap.style.height=h+'px';
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('width',w); svg.setAttribute('height',h);
   const fill=getComputedStyle(document.documentElement).getPropertyValue(color).trim()||color;
   const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
-  poly.setAttribute('points',`0,${h} ${w/2},0 ${w},${h}`);poly.setAttribute('fill',fill);
+  poly.setAttribute('points',`0,${h} ${w/2},0 ${w},${h}`);
+  poly.setAttribute('fill',fill);
   svg.appendChild(poly);
-  const lbl=document.createElement('span');lbl.className='label';lbl.textContent=label;
-  wrap.append(svg,lbl);return wrap;
+  const lbl=document.createElement('span');
+  lbl.className='label'; lbl.textContent=label;
+  wrap.append(svg,lbl);
+  return wrap;
 }
-
-/* 題2/4：圖片（A 左側；按真實名稱作答；此兩題正確均為 A） */
 function renderImg(aSrc,bSrc,aLabel,bLabel,aIsBigger){
   canvas.innerHTML='';
-  btnA.className='btn red'; btnB.className='btn blue';
-  // 注音：顯示真實名稱
-  setBtnLabelForImage(btnA,aLabel);
-  setBtnLabelForImage(btnB,bLabel);
-  correctBtn = aIsBigger ? 'A' : 'B';
-
-  const smallW=200, smallH=150, bigW=360, bigH=260;
+  btnA.className='btn ghost'; btnB.className='btn ghost';
+  btnA.textContent=aLabel; btnB.textContent=bLabel;
+  correctBtn=aIsBigger?'A':'B'; enterImagePrep();
+  const smallW=200,smallH=150,bigW=360,bigH=260;
   let A,B;
   if(aIsBigger){
-    A=makeImageBox(aSrc,bigW,bigH);  // 左邊大
-    B=makeImageBox(bSrc,smallW,smallH);
+    A=makeImageBox(aSrc,bigW,bigH); B=makeImageBox(bSrc,smallW,smallH);
   }else{
-    A=makeImageBox(aSrc,smallW,smallH);
-    B=makeImageBox(bSrc,bigW,bigH);
+    A=makeImageBox(aSrc,smallW,smallH); B=makeImageBox(bSrc,bigW,bigH);
   }
   canvas.append(A,B);
 }
-function makeImageBox(src,w,h){
-  const box=document.createElement('div');box.className='imgBox';box.style.width=w+'px';box.style.height=h+'px';
-  const img=new Image();img.src=src;img.alt='';
-  box.append(img);return box;
-}
+function makeImageBox(src,w,h){const box=document.createElement('div');box.className='imgBox';box.style.width=w+'px';box.style.height=h+'px';const img=new Image();img.src=src;box.append(img);return box;}
 
-/* 作答控制：答錯後隱藏選項、僅保留返回抽題；提示文案為「答對了／再想想」 */
-function disableButtons(){btnA.disabled=true;btnB.disabled=true;}
-function enableButtons(){btnA.disabled=false;btnB.disabled=false;}
-function showOverlay(ok){
-  overlay.classList.add('show');
-  overlay.innerHTML = ok
-    ? `<div><div class="icon circle"></div><div style="color:#065f46;font-size:24px;">答對了</div></div>`
-    : `<div><div class="icon cross"></div><div style="color:#b91c1c;font-size:24px;">再想想</div></div>`;
-  setTimeout(()=>{
-    overlay.classList.remove('show'); overlay.innerHTML='';
-    if(ok){
-      setIdle();
-    }else{
-      // 答錯：禁止再答並隱藏所有作答相關元件，只顯示返回抽題
-      answers.classList.add('hidden');
-      prepBtn.classList.add('hidden');
-      idleBtn.classList.add('hidden');
-      backBtn.classList.remove('hidden');
-    }
-  },1200);
-}
-
-/* 綁定按鈕：依當前正確答案判定（⚠️ 僅此一個 correctBtn，全域共享，不再重複宣告） */
-btnA.onclick=()=>{
-  if(answered) return;
-  answered=true; disableButtons();
-  if(correctBtn==='A'){ success(); showOverlay(true); }
-  else{ fail(); showOverlay(false); }
-};
-btnB.onclick=()=>{
-  if(answered) return;
-  answered=true; disableButtons();
-  if(correctBtn==='B'){ success(); showOverlay(true); }
-  else{ fail(); showOverlay(false); }
-};
-
-idleBtn.onclick=startNext;
-backBtn.onclick=setIdle;
-
-/* 初始 */
-setIdle();
-
-/* 快捷鍵：空白抽題、Enter選右邊、D 抽號碼 */
-window.addEventListener('keydown',e=>{
-  if(e.key===' '){e.preventDefault();if(!idleBtn.classList.contains('hidden'))startNext();}
-  else if(e.key==='Enter'){ if(!answers.classList.contains('hidden')) btnB.click(); }
-  else if(e.key.toLowerCase()==='d'){ document.getElementById('drawBtn').click(); }
-});
+function showOverlay(ok){overlay.classList.add('show');overlay.innerHTML=ok?`<div><div class="icon circle"></div><div style="color:#065f46;font-size:24px;">答對了</div></div>`:`<div><div class="icon cross"></div><div style="color:#b91c1c;font-size:24px;">再想想</div></div>`;setTimeout(()=>{overlay.classList.remove('show');overlay.innerHTML='';if(ok){setIdle();}else{answers.classList.add('hidden');prepBtn.classList.add('hidden');idleBtn.classList.add('hidden');backBtn.classList.remove('hidden');}},1200);}
+btnA.onclick=()=>{if(answered)return;answered=true;btnA.disabled=true;btnB.disabled=true;if(correctBtn==='A'){success();showOverlay(true);}else{fail();showOverlay(false);}};
+btnB.onclick=()=>{if(answered)return;answered=true;btnA.disabled=true;btnB.disabled=true;if(correctBtn==='B'){success();showOverlay(true);}else{fail();showOverlay(false);}};
+idleBtn.onclick=startNext;backBtn.onclick=setIdle;setIdle();
 </script>
 </body>
 </html>
