@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>教學小工具｜版面優化版</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>教學互動工具</title>
 <style>
 @font-face{
   font-family:'BpmfGenSenRoundedB';
@@ -13,190 +13,60 @@
   font-display:swap;
 }
 :root{
-  --bg:#f6f7fb;--panel:#fff;--primary:#2563eb;
-  --yellow:#ffcc33;--purple:#a066ff;
+  --bg:#f6f7fb; --panel:#fff; --primary:#2563eb;
+  --yellow:#ffcc33; --purple:#a066ff;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:'BpmfGenSenRoundedB',"Noto Sans TC","Microsoft JhengHei",system-ui,Arial,sans-serif;
-  background:var(--bg);
-}
-.container{max-width:1280px;margin:32px auto;padding:24px;}
-.grid{display:grid;gap:24px;}
-@media(min-width:960px){.grid{grid-template-columns:240px 1fr}}
+body{ margin:0; font-family:'BpmfGenSenRoundedB',"Noto Sans TC",sans-serif; background:var(--bg); }
+.container{max-width:1100px;margin:24px auto;padding:16px;}
+.grid{display:grid;gap:16px;}
+@media(min-width:960px){.grid{grid-template-columns:220px 1fr}}
 
-.card{
-  background:var(--panel);
-  border-radius:16px;
-  box-shadow:0 8px 24px rgba(0,0,0,.06);
-  padding:24px;
-}
-.card.left{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.card.left h2{
-  text-align:center;
-  margin:0 0 16px;
-  font-size:22px;
-}
+.card{background:var(--panel);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.08);padding:16px;position:relative;}
+.card.left{display:flex;flex-direction:column;justify-content:center;}
+.card.left h2{text-align:center;margin:0 0 12px;}
 
-.badge{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:70px;
-  border-radius:14px;
-  background:#eef2ff;
-  font-weight:800;
-  font-size:30px;
-  border:2px dashed #c7d2fe;
-}
-.btn{
-  border:none;
-  padding:14px 18px;
-  border-radius:12px;
-  font-weight:700;
-  cursor:pointer;
-  transition:.15s;
-  font-family:'BpmfGenSenRoundedB',"Noto Sans TC";
-  box-shadow:0 3px 10px rgba(0,0,0,.1);
-  color:#111;
-  font-size:18px;
-}
+.badge{display:flex;align-items:center;justify-content:center;height:64px;border-radius:12px;background:#eef2ff;font-weight:800;font-size:28px;border:2px dashed #c7d2fe;}
+
+.btn{border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;transition:.15s;
+  font-family:'BpmfGenSenRoundedB',"Noto Sans TC"; box-shadow:0 3px 10px rgba(0,0,0,.1); color:#111;}
 .btn.primary{background:var(--primary);color:#fff;}
 .btn.ghost{background:#e5e7eb;color:#111;}
-.btn.red{background:#ef4444;color:#fff;}
-.btn.blue{background:#2563eb;color:#fff;}
-.btn.yellow{background:var(--yellow);color:#000;}
-.btn.purple{background:var(--purple);color:#fff;}
-.btn.wide{display:block;width:100%;padding:16px 20px;font-size:20px;border-radius:16px;}
-.btn .label-circle{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  background:#fff;
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  font-weight:800;
-  font-size:18px;
-  box-shadow:0 2px 6px rgba(0,0,0,.12);
-}
+.btn.wide{display:block;width:100%;padding:14px 18px;font-size:18px;border-radius:14px;}
+.btn .label-circle{display:inline-flex;align-items:center;justify-content:center;background:#fff;width:44px;height:44px;border-radius:50%;font-weight:800;font-size:18px;color:#000;box-shadow:0 2px 6px rgba(0,0,0,.12);}
 
-.progress{
-  width:100%;
-  height:8px;
-  background:#eef2ff;
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:10px;
-}
-.progress>span{
-  display:block;
-  width:0;
-  height:100%;
-  background:#6366f1;
-  transition:width .06s linear;
-}
+.progress{width:100%;height:8px;background:#eef2ff;border-radius:999px;overflow:hidden;margin-top:8px;}
+.progress>span{display:block;width:0;height:100%;background:#6366f1;transition:width .06s linear;}
 
-/* ===================== */
-.stage{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:24px;
-  min-height:640px;
-  padding:24px 16px 40px;
-  border:2px dashed #e5e7eb;
-  border-radius:14px;
-  background:#fafafa;
-}
-.prompt{
-  font-size:28px;
-  font-weight:700;
-  text-align:center;
-  margin-top:10px;
-  min-height:60px;
-}
-.canvas{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:80px;
-  width:100%;
-  max-width:1000px;
-  min-height:360px;
-  margin:10px 0 20px;
-}
-.label{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:44px;height:44px;
-  border-radius:50%;
-  background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  font-size:18px;
-  color:#111;
-  box-shadow:0 2px 6px rgba(0,0,0,.12);
-}
+.stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;min-height:520px;padding:12px;border:2px dashed #e5e7eb;border-radius:12px;background:#fafafa;overflow:hidden;}
+.prompt{font-size:26px;font-weight:700;text-align:center;min-height:60px;}
+.canvas{display:flex;align-items:center;justify-content:center;gap:56px;width:100%;max-width:920px;min-height:320px;}
+.answers{margin-top:auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.answers .btn{width:100%;padding:14px 18px;font-size:18px;border-radius:12px;}
+
+.label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#000;box-shadow:0 2px 6px rgba(0,0,0,.12);}
+
 .rect{position:relative;display:flex;align-items:center;justify-content:center;border-radius:10px;}
 .rect.red{background:#ef4444}
 .rect.blue{background:#2563eb}
-.answers{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  justify-content:center;
-  margin-top:10px;
-}
-.overlay{
-  position:absolute;inset:0;
-  display:none;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.92);
-  border-radius:10px;
-  z-index:5;text-align:center;
-}
+
+.overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border-radius:10px;z-index:5;text-align:center;}
 .overlay.show{display:flex}
-.icon{width:96px;height:96px;border-radius:50%;margin-bottom:12px;}
+.icon{width:88px;height:88px;border-radius:50%;margin-bottom:10px;}
 .icon.circle{border:6px solid #10b981;}
 .icon.cross{border:6px solid #ef4444;position:relative;}
-.icon.cross::before,.icon.cross::after{
-  content:"";position:absolute;top:50%;left:50%;
-  width:48px;height:6px;background:#ef4444;transform-origin:center;
-}
+.icon.cross::before,.icon.cross::after{content:"";position:absolute;top:50%;left:50%;width:44px;height:6px;background:#ef4444;transform-origin:center;}
 .icon.cross::before{transform:translate(-50%,-50%) rotate(45deg);}
 .icon.cross::after{transform:translate(-50%,-50%) rotate(-45deg);}
-.control-bar{
-  display:flex;
-  justify-content:center;
-  gap:16px;
-  margin-top:30px;
-}
+
+.control-bar{display:flex;justify-content:center;gap:10px;margin-top:8px;}
 .hidden{display:none !important;}
-.imgBox{
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:10px;
-  overflow:hidden;
-  background:#fff;
-}
-.imgBox img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  background:#fff;
-}
+
+.imgBox{position:relative;display:flex;align-items:center;justify-content:center;border-radius:10px;overflow:hidden;background:#fff;}
+.imgBox img{display:block;width:100%;height:100%;object-fit:contain;background:#fff;}
+
+#finishOverlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.96);font-size:40px;font-weight:800;color:#1e3a8a;opacity:0;transition:opacity 1.5s ease;z-index:-1;pointer-events:none;}
+#finishOverlay.show{opacity:1;z-index:10;pointer-events:auto;}
 </style>
 </head>
 <body>
@@ -206,7 +76,7 @@ body{
       <h2>抽號器</h2>
       <div class="badge" id="ticket">—</div>
       <div class="progress"><span id="progressBar"></span></div>
-      <div style="text-align:center;margin-top:12px;">
+      <div style="text-align:center;margin-top:10px;">
         <button class="btn primary" id="drawBtn">抽號碼</button>
         <button class="btn ghost" id="resetBtn">清空</button>
       </div>
@@ -215,13 +85,19 @@ body{
     <section class="card">
       <div class="stage">
         <div class="overlay" id="overlay"></div>
+        <div id="finishOverlay">完成答題挑戰！</div>
+
         <div class="prompt" id="prompt">按「抽題」開始</div>
         <div class="canvas" id="canvas"></div>
+
         <button class="btn ghost wide hidden" id="prepBtn">完成操作</button>
+
+        <!-- 答案按鈕：全部改為灰色 -->
         <div class="answers hidden" id="answers">
-          <button class="btn" id="btnA">A</button>
-          <button class="btn" id="btnB">B</button>
+          <button class="btn ghost" id="btnA">A</button>
+          <button class="btn ghost" id="btnB">B</button>
         </div>
+
         <div class="control-bar">
           <button class="btn ghost" id="idleBtn">抽題</button>
           <button class="btn ghost hidden" id="backBtn">返回抽題</button>
@@ -233,6 +109,8 @@ body{
 
 <script>
 const $=s=>document.querySelector(s);
+
+/* ====== 音效 ====== */
 let audioCtx=null,tickTimer=null;
 function ctx(){return audioCtx||(audioCtx=new(window.AudioContext||window.webkitAudioContext)());}
 document.addEventListener('click',()=>{try{ctx().resume();}catch{}},{once:true});
@@ -246,6 +124,7 @@ function startSlotRolling(){
   g.gain.setValueAtTime(0.08,C.currentTime);
   whoop.connect(g).connect(C.destination);
   whoop.start();setTimeout(()=>whoop.stop(),3000);
+
   tickTimer=setInterval(()=>{
     const o=C.createOscillator(),gg=C.createGain();
     o.type='sine';
@@ -258,87 +137,195 @@ function startSlotRolling(){
     gg.gain.exponentialRampToValueAtTime(0.0008,t+0.10);
     o.start(t);o.stop(t+0.12);
   },120);
-  setTimeout(()=>{clearInterval(tickTimer);playKaChing();},3000);
 }
-function playKaChing(){[[1600,0.18,0.22],[1200,0.14,0.18],[900,0.16,0.18]].forEach((t,i)=>{setTimeout(()=>beep(...t),i*120);});}
-function beep(f=880,d=0.12,v=0.16){const C=ctx(),o=C.createOscillator(),g=C.createGain();o.type='sine';o.frequency.value=f;g.gain.value=v;o.connect(g).connect(C.destination);const t=C.currentTime;o.start(t);o.stop(t+d);}
+function playDengDengDeng(){
+  const C=ctx();
+  const tones=[[880,0.12,0.20],[1047,0.12,0.20],[1319,0.16,0.22]];
+  tones.forEach((t,i)=>{setTimeout(()=>beep(...t),i*140);});
+}
+function beep(f=880,d=0.12,v=0.16){
+  const C=ctx(),o=C.createOscillator(),g=C.createGain();
+  o.type='sine';o.frequency.value=f;g.gain.value=v;
+  o.connect(g).connect(C.destination);
+  const t=C.currentTime;o.start(t);o.stop(t+d);
+}
 function success(){beep(880,0.12);setTimeout(()=>beep(1175,0.14),150);}
 function fail(){beep(300,0.1,0.18);setTimeout(()=>beep(240,0.12,0.18),160);}
 
+/* ====== 抽號器 ====== */
 const ticketEl=$('#ticket'),bar=$('#progressBar'),drawBtn=$('#drawBtn'),resetBtn=$('#resetBtn');
-drawBtn.onclick=()=>{const D=3000,t0=performance.now();startSlotRolling();const timer=setInterval(()=>{const p=Math.min((performance.now()-t0)/D,1);ticketEl.textContent=Math.floor(2+Math.random()*25);bar.style.width=(p*100)+'%';if(p>=1){clearInterval(timer);ticketEl.textContent=Math.floor(2+Math.random()*25);}},60);};
+drawBtn.onclick=()=>{
+  const D=3000,t0=performance.now();
+  startSlotRolling();
+  const timer=setInterval(()=>{
+    const p=Math.min((performance.now()-t0)/D,1);
+    ticketEl.textContent=Math.floor(2+Math.random()*25);
+    bar.style.width=(p*100)+'%';
+    if(p>=1){
+      clearInterval(timer);
+      clearInterval(tickTimer);tickTimer=null;
+      ticketEl.textContent=Math.floor(2+Math.random()*25);
+      playDengDengDeng();
+    }
+  },60);
+};
 resetBtn.onclick=()=>{ticketEl.textContent='—';bar.style.width='0';};
 
+/* ====== 題目邏輯 ====== */
 const promptEl=$('#prompt'),canvas=$('#canvas'),answers=$('#answers'),
-btnA=$('#btnA'),btnB=$('#btnB'),idleBtn=$('#idleBtn'),backBtn=$('#backBtn'),overlay=$('#overlay'),prepBtn=$('#prepBtn');
-const ORDER=['rect','img1','tri','img2'];
-let orderIndex=0,answered=false,correctBtn='B';
+btnA=$('#btnA'),btnB=$('#btnB'),idleBtn=$('#idleBtn'),backBtn=$('#backBtn'),
+overlay=$('#overlay'),prepBtn=$('#prepBtn'),finishOverlay=$('#finishOverlay');
 
-function setIdle(){promptEl.textContent='按「抽題」開始';canvas.innerHTML='';answers.classList.add('hidden');prepBtn.classList.add('hidden');idleBtn.classList.remove('hidden');backBtn.classList.add('hidden');answered=false;btnA.disabled=false;btnB.disabled=false;}
-function startNext(){if(orderIndex>=ORDER.length)orderIndex=0;const type=ORDER[orderIndex++];answered=false;btnA.disabled=false;btnB.disabled=false;promptEl.textContent='哪個圖形更大';idleBtn.classList.add('hidden');backBtn.classList.add('hidden');
-if(type==='rect'){renderRect();}
-else if(type==='tri'){renderTri();}
-else if(type==='img1'){renderImg('yue.jpg','se.jpg','月曆紙','色紙',true);}
-else{renderImg('xuan.jpg','b.jpg','宣傳單','筆記紙',true);}
+const ORDER=['rect','img1','tri','img2']; // 1長方形 2月曆vs色紙 3三角形 4宣傳單vs筆記紙
+let orderIndex=0, answered=false, correctBtn='B', presentedCount=0;
+
+function setIdle(){
+  promptEl.textContent='按「抽題」開始';
+  canvas.innerHTML='';
+  answers.classList.add('hidden');
+  prepBtn.classList.add('hidden');
+  idleBtn.classList.remove('hidden');
+  backBtn.classList.add('hidden');
+  answered=false;
+  btnA.disabled=false; btnB.disabled=false;
 }
-function enterImagePrep(){answers.classList.add('hidden');prepBtn.classList.remove('hidden');prepBtn.onclick=()=>{prepBtn.classList.add('hidden');answers.classList.remove('hidden');};}
 
+/* 顯示通關提示 */
+function showFinish(){
+  finishOverlay.classList.add('show');
+  setTimeout(()=>{finishOverlay.classList.remove('show'); setIdle();}, 3000);
+  // 重置題目計數
+  orderIndex=0;
+  presentedCount=0;
+}
+
+/* 抽題：只負責出題，不再主動出現「完成挑戰」 */
+function startNext(){
+  if(orderIndex>=ORDER.length) orderIndex=0;
+  const type=ORDER[orderIndex++];
+  presentedCount = Math.min(presentedCount+1, ORDER.length);
+
+  answered=false; btnA.disabled=false; btnB.disabled=false;
+  if(type==='rect'||type==='tri'){
+    promptEl.textContent='哪個圖形的面比較大？';
+  }else{
+    promptEl.textContent='哪個物件的面比較大？來比比看！';
+  }
+  idleBtn.classList.add('hidden');
+  backBtn.classList.add('hidden');
+
+  if(type==='rect'){ renderRect(); }
+  else if(type==='tri'){ renderTri(); }
+  else if(type==='img1'){ renderImg('yue.jpg','se.jpg','月曆紙','色紙',true); }
+  else{ renderImg('xuan.jpg','b.jpg','宣傳單','筆記紙',true); }
+}
+
+/* 圖片題需先按「完成操作」才出現選項 */
+function enterImagePrep(){
+  answers.classList.add('hidden');
+  prepBtn.classList.remove('hidden');
+  prepBtn.onclick=()=>{prepBtn.classList.add('hidden');answers.classList.remove('hidden');};
+}
+
+/* 題1：長方形（A小、B大） */
 function renderRect(){
   canvas.innerHTML='';
-  btnA.className='btn red'; btnB.className='btn blue';
-  btnA.innerHTML='<span class="label-circle">A</span>'; btnB.innerHTML='<span class="label-circle">B</span>';
+  // 按鈕一律灰色，但圖形題按鈕內維持白圓底A/B
+  btnA.className='btn ghost'; btnB.className='btn ghost';
+  btnA.innerHTML='<span class="label-circle">A</span>';
+  btnB.innerHTML='<span class="label-circle">B</span>';
   answers.classList.remove('hidden'); prepBtn.classList.add('hidden');
   correctBtn='B';
-  const A=document.createElement('div');A.className='rect red';A.style.width='120px';A.style.height='90px';A.innerHTML='<span class="label">A</span>';
-  const B=document.createElement('div');B.className='rect blue';B.style.width='340px';B.style.height='230px';B.innerHTML='<span class="label">B</span>';
+  const A=document.createElement('div');A.className='rect red';A.style.width='110px';A.style.height='80px';A.innerHTML='<span class="label">A</span>';
+  const B=document.createElement('div');B.className='rect blue';B.style.width='320px';B.style.height='210px';B.innerHTML='<span class="label">B</span>';
   canvas.append(A,B);
 }
+
+/* 題3：三角形（A小、B大） */
 function renderTri(){
   canvas.innerHTML='';
-  btnA.className='btn yellow'; btnB.className='btn purple';
-  btnA.innerHTML='<span class="label-circle">A</span>'; btnB.innerHTML='<span class="label-circle">B</span>';
+  btnA.className='btn ghost'; btnB.className='btn ghost';
+  btnA.innerHTML='<span class="label-circle">A</span>';
+  btnB.innerHTML='<span class="label-circle">B</span>';
   answers.classList.remove('hidden'); prepBtn.classList.add('hidden');
   correctBtn='B';
-  const A=triangle(160,120,'var(--yellow)','A');
-  const B=triangle(340,260,'var(--purple)','B');
+  const A=triangle(140,110,'var(--yellow)','A');
+  const B=triangle(320,240,'var(--purple)','B');
   canvas.append(A,B);
 }
 function triangle(w,h,color,label){
-  const wrap=document.createElement('div');
-  wrap.className='imgBox';
-  wrap.style.width=w+'px'; wrap.style.height=h+'px';
-  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.setAttribute('width',w); svg.setAttribute('height',h);
+  const wrap=document.createElement('div');wrap.className='imgBox';wrap.style.width=w+'px';wrap.style.height=h+'px';
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('width',w);svg.setAttribute('height',h);
   const fill=getComputedStyle(document.documentElement).getPropertyValue(color).trim()||color;
   const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
-  poly.setAttribute('points',`0,${h} ${w/2},0 ${w},${h}`);
-  poly.setAttribute('fill',fill);
+  poly.setAttribute('points',`0,${h} ${w/2},0 ${w},${h}`); poly.setAttribute('fill',fill);
   svg.appendChild(poly);
-  const lbl=document.createElement('span');
-  lbl.className='label'; lbl.textContent=label;
+  const lbl=document.createElement('span');lbl.className='label';lbl.textContent=label;
   wrap.append(svg,lbl);
   return wrap;
 }
+
+/* 題2/4：圖片題（左項較大） */
 function renderImg(aSrc,bSrc,aLabel,bLabel,aIsBigger){
   canvas.innerHTML='';
   btnA.className='btn ghost'; btnB.className='btn ghost';
   btnA.textContent=aLabel; btnB.textContent=bLabel;
-  correctBtn=aIsBigger?'A':'B'; enterImagePrep();
+  correctBtn = aIsBigger ? 'A' : 'B';
+  enterImagePrep();
+
   const smallW=200,smallH=150,bigW=360,bigH=260;
   let A,B;
-  if(aIsBigger){
-    A=makeImageBox(aSrc,bigW,bigH); B=makeImageBox(bSrc,smallW,smallH);
-  }else{
-    A=makeImageBox(aSrc,smallW,smallH); B=makeImageBox(bSrc,bigW,bigH);
-  }
+  if(aIsBigger){ A=makeImageBox(aSrc,bigW,bigH); B=makeImageBox(bSrc,smallW,smallH); }
+  else{ A=makeImageBox(aSrc,smallW,smallH); B=makeImageBox(bSrc,bigW,bigH); }
   canvas.append(A,B);
 }
-function makeImageBox(src,w,h){const box=document.createElement('div');box.className='imgBox';box.style.width=w+'px';box.style.height=h+'px';const img=new Image();img.src=src;box.append(img);return box;}
+function makeImageBox(src,w,h){
+  const box=document.createElement('div'); box.className='imgBox';
+  box.style.width=w+'px'; box.style.height=h+'px';
+  const img=new Image(); img.src=src; box.append(img);
+  return box;
+}
 
-function showOverlay(ok){overlay.classList.add('show');overlay.innerHTML=ok?`<div><div class="icon circle"></div><div style="color:#065f46;font-size:24px;">答對了</div></div>`:`<div><div class="icon cross"></div><div style="color:#b91c1c;font-size:24px;">再想想</div></div>`;setTimeout(()=>{overlay.classList.remove('show');overlay.innerHTML='';if(ok){setIdle();}else{answers.classList.add('hidden');prepBtn.classList.add('hidden');idleBtn.classList.add('hidden');backBtn.classList.remove('hidden');}},1200);}
-btnA.onclick=()=>{if(answered)return;answered=true;btnA.disabled=true;btnB.disabled=true;if(correctBtn==='A'){success();showOverlay(true);}else{fail();showOverlay(false);}};
-btnB.onclick=()=>{if(answered)return;answered=true;btnA.disabled=true;btnB.disabled=true;if(correctBtn==='B'){success();showOverlay(true);}else{fail();showOverlay(false);}};
-idleBtn.onclick=startNext;backBtn.onclick=setIdle;setIdle();
+/* 結果呈現：答對/答錯後一律顯示「返回抽題」；第4題返回時跳通關 */
+function showOverlay(ok){
+  overlay.classList.add('show');
+  overlay.innerHTML = ok
+    ? `<div><div class="icon circle"></div><div style="color:#065f46;font-size:24px;">答對了</div></div>`
+    : `<div><div class="icon cross"></div><div style="color:#b91c1c;font-size:24px;">再想想</div></div>`;
+  setTimeout(()=>{
+    overlay.classList.remove('show'); overlay.innerHTML='';
+    // 作答結束：隱藏選項、顯示返回鍵，讓老師決定何時回抽題
+    answers.classList.add('hidden');
+    prepBtn.classList.add('hidden');
+    idleBtn.classList.add('hidden');
+    backBtn.classList.remove('hidden');
+  }, 1200);
+}
+
+/* 綁定作答行為 */
+btnA.onclick=()=>{ if(answered) return; answered=true; btnA.disabled=true; btnB.disabled=true;
+  if(correctBtn==='A'){ success(); showOverlay(true); } else { fail(); showOverlay(false); } };
+btnB.onclick=()=>{ if(answered) return; answered=true; btnA.disabled=true; btnB.disabled=true;
+  if(correctBtn==='B'){ success(); showOverlay(true); } else { fail(); showOverlay(false); } };
+
+/* 抽題 / 返回 */
+idleBtn.onclick=startNext;
+backBtn.onclick=()=>{
+  // 若已呈現滿四題（presentedCount === 4），在「返回抽題」時立即顯示通關提示
+  if(presentedCount >= ORDER.length){
+    showFinish();
+  }else{
+    setIdle();
+  }
+};
+
+/* 初始化 */
+setIdle();
+
+/* ====== 抽號器快捷鍵：D ====== */
+window.addEventListener('keydown',e=>{
+  if(e.key.toLowerCase()==='d'){ document.getElementById('drawBtn').click(); }
+});
 </script>
 </body>
 </html>
