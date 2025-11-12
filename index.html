@@ -206,8 +206,8 @@ function startNext(){
   if(orderIndex>=ORDER.length)orderIndex=0;
   const type=ORDER[orderIndex++];presentedCount=Math.min(presentedCount+1,ORDER.length);
   answered=false;btnA.disabled=false;btnB.disabled=false;
-  if(type==='rect'||type==='tri'){promptEl.textContent='哪個圖形的面比較大？';}
-  else{promptEl.textContent='哪個物件的面比較大？來比比看！';}
+  if(type==='rect'||type==='tri'){promptEl.textContent='哪個󠇡圖形的面比較大？';}
+  else{promptEl.textContent='哪個󠇡物件的面比較大？來比比看！';}
   idleBtn.classList.add('hidden');backBtn.classList.add('hidden');
   if(type==='rect')renderRect();
   else if(type==='tri')renderTri();
@@ -293,4 +293,5 @@ window.addEventListener('keydown',e=>{
 </script>
 </body>
 </html>
+
 
